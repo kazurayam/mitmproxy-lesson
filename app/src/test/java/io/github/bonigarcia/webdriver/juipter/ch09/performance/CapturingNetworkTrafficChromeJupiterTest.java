@@ -42,6 +42,7 @@ public class CapturingNetworkTrafficChromeJupiterTest {
     private WebDriver driver;
 
     private static final String MITMDUMP_COMMAND_PATH_MAC = "/Users/kazuakiurayama/.local/bin/mitmdump";
+
     private static final int PROXY_PORT = 8080;
     private MitmproxyJava mitmDump;
     private List<InterceptedMessage> messages;
@@ -62,7 +63,7 @@ public class CapturingNetworkTrafficChromeJupiterTest {
         // HAR support : https://www.mitmproxy.org/posts/har-support/
         List<String> extraMitmproxyParams =
                 Arrays.asList("--set",
-                        String.format("hardump=\"%s\"",
+                        String.format("hardump=%s",
                                 too.resolveOutput("dump.har").toString()));
         log.info("extraMitmproxyParams=" + extraMitmproxyParams);
 
@@ -99,7 +100,7 @@ public class CapturingNetworkTrafficChromeJupiterTest {
         assertThat(messages).hasAtLeastOneElementOfType(InterceptedMessage.class);
 
         // print out the captured messages into a file
-        File output = too.resolveOutput("testCaptureNetworkTraffic.json").toFile();
+        File output = too.resolveOutput("testCaptureNetworkTraffic.txt").toFile();
         PrintWriter pr = new PrintWriter(
                 new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output),
                                 StandardCharsets.UTF_8)));
