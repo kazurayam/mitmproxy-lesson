@@ -24,6 +24,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -41,7 +42,7 @@ public class CapturingNetworkTrafficChromeJupiterTest {
     private WebDriver driver;
 
     private static final String MITMDUMP_COMMAND_PATH_MAC = "/Users/kazuakiurayama/.local/bin/mitmdump";
-
+    private static final int PROXY_PORT = 8080;
     private MitmproxyJava mitmDump;
     private List<InterceptedMessage> messages;
 
@@ -57,19 +58,28 @@ public class CapturingNetworkTrafficChromeJupiterTest {
         // start Mitmproxy process
         String mitmdumpCommand = MITMDUMP_COMMAND_PATH_MAC;
         log.info("mitmdump command path: " + mitmdumpCommand);
+
+        // HAR support : https://www.mitmproxy.org/posts/har-support/
+        List<String> extraMitmproxyParams =
+                Arrays.asList("--set",
+                        String.format("hardump=\"%s\"",
+                                too.resolveOutput("dump.har").toString()));
+        log.info("extraMitmproxyParams=" + extraMitmproxyParams);
+
         mitmDump = new MitmproxyJava(mitmdumpCommand, (InterceptedMessage m) -> {
-            System.out.println("intercepted request for " + m.getRequest().getUrl());
+            log.info("intercepted request for " + m.getRequest().getUrl());
             messages.add(m);
             return m;
-        });
+        }, PROXY_PORT, extraMitmproxyParams);
+
         mitmDump.start();
 
         // start Chrome browser
         // see https://chromedriver.chromium.org/capabilities
         Proxy seleniumProxy = new Proxy();
         seleniumProxy.setAutodetect(false);
-        seleniumProxy.setHttpProxy("127.0.0.1:8080");
-        seleniumProxy.setSslProxy("127.0.0.1:8080");
+        seleniumProxy.setHttpProxy("127.0.0.1:" + PROXY_PORT);  // URLs with scheme "http:" requires this
+        seleniumProxy.setSslProxy("127.0.0.1:" + PROXY_PORT);   // URLs with scheme "https:" requires this
         ChromeOptions options = new ChromeOptions();
         options.setProxy(seleniumProxy);
         options.setAcceptInsecureCerts(true);
