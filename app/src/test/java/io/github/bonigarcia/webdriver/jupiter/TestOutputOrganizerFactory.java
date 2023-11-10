@@ -1,4 +1,4 @@
-package io.github.bonigarcia.webdriver.juipter;
+package io.github.bonigarcia.webdriver.jupiter;
 
 import com.kazurayam.unittest.TestOutputOrganizer;
 

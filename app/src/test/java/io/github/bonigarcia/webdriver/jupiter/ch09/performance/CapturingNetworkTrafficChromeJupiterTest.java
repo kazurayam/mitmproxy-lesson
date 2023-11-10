@@ -1,10 +1,10 @@
-package io.github.bonigarcia.webdriver.juipter.ch09.performance;
+package io.github.bonigarcia.webdriver.jupiter.ch09.performance;
 
 import com.kazurayam.unittest.TestOutputOrganizer;
 import io.appium.mitmproxy.InterceptedMessage;
 import io.appium.mitmproxy.MitmproxyJava;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.github.bonigarcia.webdriver.juipter.TestOutputOrganizerFactory;
+import io.github.bonigarcia.webdriver.jupiter.TestOutputOrganizerFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
