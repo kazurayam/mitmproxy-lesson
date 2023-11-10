@@ -12,14 +12,14 @@ I read a book [by Boni Garcia, "Hands-On Selenium WebDriver with Java", O'Reilly
 
 I found that the problem was caused by a version collision of the encryption library [bouncycastle.org](https://www.bouncycastle.org/) upon which both [WebDriverManager](https://github.com/bonigarcia/webdrivermanager) and [lightbody/BrowserMob proxy](https://github.com/lightbody/browsermob-proxy) depend.
 
-I thought that it would be an idea to create another example of capturing network traffics using other HTTPS proxy software. I looked around and found the [mitmproxy](https://www.mitmproxy.org/) project. They announced [HAR support](https://www.mitmproxy.org/posts/har-support/) at v10.1, Sep 2023. The [mitmproxy-java](https://github.com/appium/mitmproxy-java), between Python's mitmproxy and Java programs, is available. Why not I learn the mitmproxy product and develop a sample test?
+I thought that it would be an idea to create another unit-test example in Java of capturing network traffics using other HTTPS proxy software. I looked around and found the [mitmproxy](https://www.mitmproxy.org/) project. They announced [HAR support](https://www.mitmproxy.org/posts/har-support/) at v10.1, Sep 2023. The [mitmproxy-java](https://github.com/appium/mitmproxy-java), between Python's mitmproxy and Java programs, is available. Why not I learn the mitmproxy product and develop a sample test?
 
 ## Solution
 
 This project contains a working example.
 
 - [build.gradle](https://github.com/kazurayam/mitmproxy-lesson/blob/issue3done/app/build.gradle)
-- [io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest](https://github.com/kazurayam/mitmproxy-lesson/blob/issue3done/app/src/test/java/io/github/bonigarcia/webdriver/jupiter/ch09/performance/CapturingNetworkTrafficChromeJupiterTest.java)
+- [io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest](https://github.com/kazurayam/mitmproxy-lesson/blob/develop/app/src/test/java/io/github/bonigarcia/webdriver/jupiter/ch09/performance/CapturingNetworkTrafficChromeJupiterTest.java)
 
 This test creates a HAR file like this:
 
