@@ -3,3 +3,6 @@
 
 # Ignore Gradle build output directory
 build
+
+# Ignore the files created by unit tests
+test-output
