@@ -168,7 +168,97 @@ I could confirm that the `mitmdump` command is working on my machine.
 
 ### Running the sample junit5 test
 
-TODO
+Here I assume that you have Java17 installed.
+
+Let me assume you have downloaded the zip file of this project from the [Releases](https://github.com/kazurayam/mitmproxy-lesson/releases) page. You unzip it in any directory you want, and you get a directory `mitmproxy-lesson`. 
+
+Now you want to run a sample test by Gradle:
+
+```
+$ cd ${mitmproxy-lesson}
+$ ./gradlew :app:test --tests="*CapturingNetworkTraffic*"
+```
+
+In the STDOUT section of JUnit report, I could see the test run passed.
+
+```
+> Task :app:compileJava NO-SOURCE
+> Task :app:processResources NO-SOURCE
+> Task :app:classes UP-TO-DATE
+> Task :app:compileTestJava UP-TO-DATE
+> Task :app:processTestResources UP-TO-DATE
+> Task :app:testClasses UP-TO-DATE
+11:43:56.758 [Test worker] INFO io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest -- mitmdump command path: /Users/kazuakiurayama/.local/bin/mitmdump
+11:43:56.764 [Test worker] INFO io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest -- extraMitmproxyParams=[--set, hardump=/Users/kazuakiurayama/github/mitmproxy-lesson/app/test-output/io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest/dump.har]
+11:43:56.767 [Test worker] INFO io.appium.mitmproxy.MitmproxyJava -- Starting mitmproxy on port 8080
+11:43:56.892 [WebSocketSelector-26] INFO org.java_websocket.server.WebSocketServer -- websocket server started successfully
+11:43:56.901 [Test worker] DEBUG org.zeroturnaround.exec.ProcessExecutor -- Executing [/Users/kazuakiurayama/.local/bin/mitmdump, --anticache, -p, 8080, -s, /private/var/folders/lh/jkh513dn7f3c0j09z131g1z00000gn/T/mitmproxy-python-plugin13827933653495652537.py, --set, hardump=/Users/kazuakiurayama/github/mitmproxy-lesson/app/test-output/io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest/dump.har].
+11:43:56.915 [Test worker] DEBUG org.zeroturnaround.exec.ProcessExecutor -- Started Process[pid=14730, exitValue="not exited"]
+11:43:57.418 [WebSocketWorker-18] DEBUG org.java_websocket.server.WebSocketServer -- new connection to websocket server/127.0.0.1:54627
+11:43:57.448 [Test worker] INFO io.appium.mitmproxy.MitmproxyJava -- Mitmproxy started on port 8080
+11:43:57.474 [Test worker] DEBUG io.github.bonigarcia.wdm.WebDriverManager -- Using WebDriverManager 5.6.0
+11:43:58.084 [Test worker] DEBUG io.github.bonigarcia.wdm.cache.ResolutionCache -- Resolution chrome=119 in cache (valid until 12:41:55 11/11/2023 JST)
+11:43:58.090 [Test worker] DEBUG io.github.bonigarcia.wdm.cache.ResolutionCache -- Resolution chrome119=119.0.6045.105 in cache (valid until 11:41:55 12/11/2023 JST)
+11:43:58.092 [Test worker] INFO io.github.bonigarcia.wdm.WebDriverManager -- Using chromedriver 119.0.6045.105 (resolved driver for Chrome 119)
+11:43:58.128 [Test worker] DEBUG io.github.bonigarcia.wdm.WebDriverManager -- Driver chromedriver 119.0.6045.105 found in cache
+11:43:58.131 [Test worker] INFO io.github.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as /Users/kazuakiurayama/.cache/selenium/chromedriver/mac64/119.0.6045.105/chromedriver
+11:44:06.404 [WebSocketWorker-18] INFO io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest -- intercepted request for https://accounts.google.com/ListAccounts?gpsia=1&source=ChromiumBrowser&json=standard
+11:44:06.423 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:43:57.378] Loading script /private/var/folders/lh/jkh513dn7f3c0j09z131g1z00000gn/T/mitmproxy-python-plugin13827933653495652537.py
+11:44:06.423 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:43:57.386] HTTP(S) proxy listening at *:8080.
+11:44:06.423 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:43:57.464][127.0.0.1:54628] client connect
+11:44:06.423 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:43:57.464][127.0.0.1:54628] client disconnect
+11:44:06.424 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:05.848][127.0.0.1:54649] client connect
+11:44:06.424 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:05.882][127.0.0.1:54649] server connect accounts.google.com:443 (142.250.196.109:443)
+11:44:06.425 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- 127.0.0.1:54649: POST https://accounts.google.com/ListAccounts?gpsia=1&source… HTTP/2.0
+11:44:06.428 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava --      << HTTP/1.1 200 OK 43b
+11:44:06.767 [WebSocketWorker-18] INFO io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest -- intercepted request for https://bonigarcia.dev/selenium-webdriver-java/login-form.html
+11:44:06.768 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:06.446][127.0.0.1:54652] client connect
+11:44:06.769 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:06.459][127.0.0.1:54653] client connect
+11:44:06.769 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:06.524][127.0.0.1:54653] server connect bonigarcia.dev:443 (185.199.109.153:443)
+11:44:06.769 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:06.525][127.0.0.1:54652] server connect bonigarcia.dev:443 (185.199.109.153:443)
+11:44:06.769 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- 127.0.0.1:54653: GET https://bonigarcia.dev/selenium-webdriver-java/login-fo… HTTP/2.0
+11:44:06.770 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava --      << HTTP/1.1 200 OK 1020b
+11:44:06.997 [WebSocketWorker-18] INFO io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest -- intercepted request for https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css
+11:44:07.001 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:06.811][127.0.0.1:54656] client connect
+11:44:07.001 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:06.812][127.0.0.1:54657] client connect
+11:44:07.001 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:06.813][127.0.0.1:54658] client connect
+11:44:07.001 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:06.854][127.0.0.1:54656] server connect cdn.jsdelivr.net:443 (151.101.109.229:443)
+11:44:07.001 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:06.857][127.0.0.1:54658] server connect cdn.jsdelivr.net:443 (151.101.109.229:443)
+11:44:07.001 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:06.859][127.0.0.1:54657] server connect code.jquery.com:443 (151.101.130.137:443)
+11:44:07.001 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:06.906][127.0.0.1:54658] client disconnect
+11:44:07.001 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:06.907][127.0.0.1:54658] server disconnect cdn.jsdelivr.net:443 (151.101.109.229:443)
+11:44:07.001 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- 127.0.0.1:54656: GET https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/b… HTTP/2.0
+11:44:07.002 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava --      << HTTP/1.1 200 OK 25.7k
+11:44:07.013 [WebSocketWorker-18] INFO io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest -- intercepted request for https://code.jquery.com/jquery-3.6.0.min.js
+11:44:07.018 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- 127.0.0.1:54657: GET https://code.jquery.com/jquery-3.6.0.min.js HTTP/2.0
+11:44:07.019 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava --      << HTTP/1.1 200 OK 30.2k
+11:44:07.035 [WebSocketWorker-18] INFO io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest -- intercepted request for https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js
+11:44:07.038 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- 127.0.0.1:54656: GET https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bo… HTTP/2.0
+11:44:07.040 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava --      << HTTP/1.1 200 OK 23.4k
+11:44:07.045 [WebSocketWorker-18] INFO io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest -- intercepted request for https://bonigarcia.dev/selenium-webdriver-java/img/hands-on-icon.png
+11:44:07.047 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- 127.0.0.1:54653: GET https://bonigarcia.dev/selenium-webdriver-java/img/hand… HTTP/2.0
+11:44:07.048 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava --      << HTTP/1.1 200 OK 8.2k
+11:44:07.619 [WebSocketWorker-18] INFO io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest -- intercepted request for https://bonigarcia.dev/selenium-webdriver-java/img/hands-on-icon.png
+11:44:07.621 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:07.584][127.0.0.1:54662] client connect
+11:44:07.621 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- [11:44:07.614][127.0.0.1:54662] server connect content-autofill.googleapis.com:443 (142.251.222.10:443)
+11:44:07.621 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- 127.0.0.1:54653: GET https://bonigarcia.dev/selenium-webdriver-java/img/hand… HTTP/2.0
+11:44:07.622 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava --      << HTTP/1.1 200 OK 8.2k
+11:44:07.761 [WebSocketWorker-18] INFO io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest -- intercepted request for https://content-autofill.googleapis.com/v1/pages/ChVDaHJvbWUvMTE5LjAuNjA0NS4xMjMSIAnLmHAugdKVvhIFDeeNQA4SBQ3OQUx6IQZp6q_8NyIV?alt=proto
+11:44:07.763 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- 127.0.0.1:54662: GET https://content-autofill.googleapis.com/v1/pages/ChVDaH… HTTP/2.0
+11:44:07.764 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava --      << HTTP/1.1 200 OK 44b
+11:44:08.544 [WebSocketWorker-18] INFO io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest -- intercepted request for https://bonigarcia.dev/selenium-webdriver-java/login-sucess.html?username=user&password=user
+11:44:08.546 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- 127.0.0.1:54653: GET https://bonigarcia.dev/selenium-webdriver-java/login-su… HTTP/2.0
+11:44:08.546 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava --      << HTTP/1.1 200 OK 701b
+11:44:08.626 [WebSocketWorker-18] INFO io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest -- intercepted request for https://bonigarcia.dev/selenium-webdriver-java/img/hands-on-icon.png
+11:44:08.627 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava -- 127.0.0.1:54653: GET https://bonigarcia.dev/selenium-webdriver-java/img/hand… HTTP/2.0
+11:44:08.628 [Thread-13] INFO io.appium.mitmproxy.MitmproxyJava --      << HTTP/1.1 200 OK 8.2k
+11:44:09.068 [WaitForProcess-Process[pid=14730, exitValue="not exited"]] DEBUG org.zeroturnaround.exec.WaitForProcess -- Stopping Process[pid=14730, exitValue="not exited"]...
+11:44:09.075 [WebSocketWorker-18] DEBUG org.java_websocket.server.WebSocketServer -- closed /127.0.0.1:54627 with exit code 1000 additional info: 
+> Task :app:test
+BUILD SUCCESSFUL in 15s
+3 actionable tasks: 1 executed, 2 up-to-date
+11:44:09: Execution finished ':app:test --tests "io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest"'.
+```
 
 ### Description of the sample test
 
