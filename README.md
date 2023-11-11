@@ -66,22 +66,89 @@ For a Java programmer who is not well experienced with Python, installing mitmpr
 
 Here I will describe what I have done on my MackBook.
 
------
+#### Install Python3
 
-https://docs.mitmproxy.org/stable/overview-getting-started/
+At first, I needed [Homebrew](https://brew.sh/) that helps every Mac users to install everything. In the command line, I did this (in fact, many years ago).
 
-## install mitmproxy
+```
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 
-https://docs.mitmproxy.org/stable/overview-installation/
+I needed to install Python 3. In the commandline, I did the following (in fact, many years ago).
 
-On Mac
+```
+$ brew install python3
+```
+
+The home page of [mitmproxy.org](https://www.mitmproxy.org/) tells us that we can install the mitmproxy quick by typing:
+
+```
+$ brew install mitmproxy
+```
+
+Unfortunately, this is not enough for us. We need to install the mitmproxy and together with the [websockets](https://pypi.org/project/websockets/) module so that our java code can interact with the mitmproxy process. So we would install the mitmproxy using [pipx](https://pypa.github.io/pipx/). Using pipx, we will have a virtual environment for the mitmproxy command isolated from the other python codes we develop. See https://docs.mitmproxy.org/stable/overview-installation/#installation-from-the-python-package-index-pypi for more information.
+
+On Mac in the command line, I installed pipx: 
+
+```
+$ brew install pipx
+$ pipx ensurepath
+```
+
+then I installed the mitmproxy:
+
 ```
 $ pipx instal mitmproxy
 ```
+
+plus, I injected the websockets module into the mitmproxy environment:
 
 ```
 $ pipx inject mitmproxy websockets
 ```
 
-https://pod.hatenablog.com/entry/2021/06/23/221537
+By the following command, I could check the path of the `mitmdump` command installed:
+
+```
+$ which mitmdump
+/Users/kazurayam/.local/bin/mitmdump
+```
+
+Now I want to test if the `mitmdump` command is up and running on my machine. Let me check it.
+
+I opened a terminal window, where I started the `mitmdump` command:
+
+```
+:~
+$ mitmdump --set hardump=tmp/sample-dump.har
+[10:51:51.352] HTTP(S) proxy listening at *:8080.
+```
+
+I opened another terminal window, where I run `curl` command to send a HTTP GET request to a web site through the proxy = the process where the `mitmdump` is running while listening to the localhost:8080 port.
+
+```
+:~
+$ curl -x http://127.0.0.1:8080 --insecure https://bonigarcia.dev/selenium-webdriver-java/login-form.html
+```
+
+In response to this request, the web server responded a HTML file. I could see the source printed in the command line:
+
+```
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+<head>
+  <title>Hands-On Selenium WebDriver with Java</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  ...
+  (trimmed)
+```
+
+I went back to the other window where I ran the `mitmdump` command.
+
+![mitmdump_in_action](https://kazurayam.github.io/images/mitmdump_in_action.png)
+
+
 
