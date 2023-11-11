@@ -124,6 +124,8 @@ $ mitmdump --set hardump=tmp/sample-dump.har
 [10:51:51.352] HTTP(S) proxy listening at *:8080.
 ```
 
+Please note that I specified the path of HAR file by the `--set hardump=xxxx` command. 
+
 I opened another terminal window, where I run `curl` command to send a HTTP GET request to a web site through the proxy = the process where the `mitmdump` is running while listening to the localhost:8080 port.
 
 ```
@@ -146,9 +148,13 @@ In response to this request, the web server responded a HTML file. I could see t
   (trimmed)
 ```
 
-I went back to the other window where I ran the `mitmdump` command.
+I went back to the other window where I ran the `mitmdump` command. The process of `mitmdump` is still running while displaying the summary of captured network traffics.
 
 ![mitmdump_in_action](https://kazurayam.github.io/images/mitmdump_in_action.png)
 
+Then I quit the process by CTRL+C key.
 
+![mitmdump_quit](https://kazurayam.github.io/images/mitmdump_quit.png)
+
+The process stopped. On exit, the `mitmdump` will write a HAR file on the local disk.
 
