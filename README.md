@@ -58,7 +58,7 @@ Let me quote a leading part of the HAR file here:
 
 The following sequence diagram shows how the sample test and the mitmproxy process interact.
 
-![sequence](https://kazuryam.github.io/mitmproxy-lesson/diagrams/out/sequence.png)
+![sequence](https://kazurayam.github.io/mitmproxy-lesson/diagrams/out/sequence.png)
 
 ### Installing mitmproxy
 
