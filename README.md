@@ -154,15 +154,15 @@ In response to this request, the web server responded a HTML file. I could see t
 
 I went back to the other window where I ran the `mitmdump` command. The process of `mitmdump` is still running while displaying the summary of captured network traffics.
 
-![mitmdump_in_action](https://kazurayam.github.io/images/mitmdump_in_action.png)
+![mitmdump_in_action](https://kazurayam.github.io/mitmproxy-lesson/images/mitmdump_in_action.png)
 
 Then I quit the process by CTRL+C key.
 
-![mitmdump_quit](https://kazurayam.github.io/images/mitmdump_quit.png)
+![mitmdump_quit](https://kazurayam.github.io/mitmproxy-lesson/images/mitmdump_quit.png)
 
 The process stopped. The message told me that, on exit, the `mitmdump` wrote a HAR file on the local disk. Where is the files? --- Remember, I specified the path in the command argument to start it up.
 
-![sample-dump.har](https://kazurayam.github.io/images/sample-dump.har.png)
+![sample-dump.har](https://kazurayam.github.io/mitmprox-lesson/images/sample-dump.har.png)
 
 I could confirm that the `mitmdump` command is working on my machine.
 
