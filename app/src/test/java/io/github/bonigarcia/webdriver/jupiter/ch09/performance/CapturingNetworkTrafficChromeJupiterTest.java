@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,13 +45,15 @@ public class CapturingNetworkTrafficChromeJupiterTest {
     private static final String MITMDUMP_COMMAND_PATH;
     static {
         MITMDUMP_COMMAND_PATH =
-                // on my Mac
-                System.getProperty("user.home") + ".local/bin/mitmdump";
+                // <1>
+                System.getProperty("user.home") + "/" + ".local/bin/mitmdump";
     }
 
     private static final int PROXY_PORT = 8080;
     private MitmproxyJava mitmDump;
     private List<InterceptedMessage> messages;
+
+    private Path harPath;
 
     @BeforeAll
     static void setupClass() {
@@ -63,26 +66,27 @@ public class CapturingNetworkTrafficChromeJupiterTest {
 
         // start Mitmproxy process with HAR support
         // : https://www.mitmproxy.org/posts/har-support/
+        harPath = too.resolveOutput("dump.har");  // <2>
         List<String> extraMitmproxyParams =
                 Arrays.asList("--set",
+                        // "--set hardump=filepath"
                         String.format("hardump=%s",
                                 // the file path should NOT contain
                                 // any whitespace characters
-                                too.resolveOutput("dump.har")
-                                        .toString()));
+                                harPath.toString()));
         log.info("mitmdump command path: " + MITMDUMP_COMMAND_PATH);
         log.info("extraMitmproxyParams=" + extraMitmproxyParams);
 
-        mitmDump = new MitmproxyJava(MITMDUMP_COMMAND_PATH,
-                (InterceptedMessage m) -> {
-                    // the mitmdump process notify the caller of the all intercepted
-                    // messages in event-driven manner
+        mitmDump = new MitmproxyJava(MITMDUMP_COMMAND_PATH,    // <3>
+                (InterceptedMessage m) -> {    // <4>
+                    // the mitmdump process notify the caller of
+                    // the all intercepted messages in event-driven manner
                     log.info("intercepted request for " + m.getRequest().getUrl());
                     messages.add(m);
                     return m;
                     },
-                PROXY_PORT,
-                extraMitmproxyParams);  // "--set hardump=filepath"
+                PROXY_PORT,   // <5>
+                extraMitmproxyParams);  // <6>
 
         // Start the Proxy
         mitmDump.start();
@@ -146,5 +150,7 @@ public class CapturingNetworkTrafficChromeJupiterTest {
         if (mitmDump != null) {
             mitmDump.stop();
         }
+        log.info("The HAR was written into " +
+                TestOutputOrganizer.toHomeRelativeString(harPath));
     }
 }

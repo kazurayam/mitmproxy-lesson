@@ -1,0 +1,32 @@
+= mitmproxy lesson
+
+== Sample JUnit5 Test description
+
+[source,java]
+----
+include::../app/src/test/java/io/github/bonigarcia/webdriver/jupiter/ch09/performance/CapturingNetworkTrafficChromeJupiterTest.java[]
+----
+<1> You need to explicitly specify the path of `mitmdump` command on your machine. How to find it? On mac, try
+[source]
+----
+$ which mitmdump
+/Users/kazurayam/.local/bin/mitmdump
+----
+On Windows, try
+[source]
+----
+$ type mitmdump
+\Users\kazuryam\.local\bin\mitmdump
+----
+
+<2> `com.kazurayam.unittest.TestOutputOrganizer.resolveOutput(String fileName)` will resolve the output file path. The fill will be located under the `projectDir/test-output` directory.
+
+<3> The `io.appium.mitmproxy.MitmproxyJava` instance is the bridge between the test class written in Java and the proxy process written in Python.
+
+<4> You can pass a Java lambda function as the event handler which will be invoked on every message interception by the proxy process. I the lambda function, you can do anything you want. The sample code just saves the `InterceptedMessage` objects in to a collection in the test class.
+
+<5> The `mitmproxy` and `mitmdump` proxy listens to the IP port #8080 as default.
+
+<6> If you want `mitmdump` command to save a HAR file on exit, you need to specify `"--set hardump=filepath"` parameter on startup. See https://www.mitmproxy.org/posts/har-support/ for detail. Warning: the _filepath_ should NOT contain any whitespace character. For exmaple, `"--set hardump=my har file.har"` would not work. Unfortunately, the `mitmpdump` command does not understand quotations like `"--set hardump='my har file.har'"`.
+
+
