@@ -14,7 +14,7 @@ I found that the problem was caused by a version collision of the encryption lib
 
 ## Solution
 
-I thought that it would be an idea to create another unit-test example in Java of capturing network traffics using other HTTPS proxy software. I looked around and found the [mitmproxy](https://www.mitmproxy.org/) project. The [mitmproxy-java](https://github.com/appium/mitmproxy-java), between Python's mitmproxy and Java programs, is available. They announced [HAR support](https://www.mitmproxy.org/posts/har-support/) at v10.1, Sep 2023. Why not I learn the mitmproxy product and develop a sample test?
+I thought that it would be an idea to create another unit-test example in Java of capturing network traffics between HTTP client (browser) and HTTP server using other proxy software. I looked around and found the [mitmproxy](https://www.mitmproxy.org/) project. The [mitmproxy-java](https://github.com/appium/mitmproxy-java), a bridge between Python's mitmproxy and Java programs, is available. They announced [HAR support](https://www.mitmproxy.org/posts/har-support/) at v10.1, Sep 2023. Why not I learn the mitmproxy product and develop a sample test?
 
 I have spent a couple of days, and could make it. This project contains a working example.
 
@@ -25,9 +25,8 @@ This test creates a HAR file like this:
 
 - [Sample HAR file](https://kazurayam.github.io/mitmproxy-lesson/dump.har)
 
-Let me quote a leading part here:
+Let me quote a leading part of the HAR file here:
 
-[source,json]
 ```
 {
     "log": {
@@ -58,6 +57,8 @@ Let me quote a leading part here:
 ### Sequence diagram
 
 The following sequence diagram shows how the sample test and the mitmproxy process interact.
+
+![sequence](https://kazuryam.github.io/mitmproxy-lesson/diagrams/out/sequence.png)
 
 ### Installing mitmproxy
 

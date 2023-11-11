@@ -1,0 +1,44 @@
+@startuml sequence
+
+skinparam defaultFontName Courier
+
+actor       Tester      as tester
+box "local" #LightBlue
+participant "unit test" as script
+database    HAR         as har
+participant "WebDriver+Browser" as browser
+participant mitmdump    as proxy
+end box
+
+box "remote" #LightPink
+database    "web server"   as server
+end box
+
+tester   -> script      : run
+activate script #FFccFF
+script   -> proxy      : start the proxy
+activate proxy #ccFFFF
+group process test steps
+script   -> browser    : start the browser to navigate to a URL
+activate browser
+group for all web resources
+browser  -> proxy      : request via proxy
+proxy    -> proxy      : log request
+proxy    -> server     : send request
+server   -> proxy      : reply response
+proxy    -> proxy      : log response
+proxy    -> browser    : response
+end
+script   -> script     : do some tests
+script   -> browser    : quit the browser
+browser  -> script     : notify termination
+deactivate browser
+end
+script   -> proxy      : stop the proxy
+proxy    -> har        : save HAR on exit
+proxy    -> script     : notify termination
+deactivate proxy
+script   -> har        : verify the HAR
+script   -> tester     : done
+deactivate script
+@enduml
