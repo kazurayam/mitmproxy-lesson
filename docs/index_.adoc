@@ -29,4 +29,20 @@ $ type mitmdump
 
 <6> If you want `mitmdump` command to save a HAR file on exit, you need to specify `"--set hardump=filepath"` parameter on startup. See https://www.mitmproxy.org/posts/har-support/ for detail. Warning: the _filepath_ should NOT contain any whitespace character. For exmaple, `"--set hardump=my har file.har"` would not work. Unfortunately, the `mitmpdump` command does not understand quotations like `"--set hardump='my har file.har'"`.
 
+<7> You can start the proxy process by calling `proxy.start()`
+
+<8> You want the browser to talk to the proxy which is running at the host `120.0.0.1` with IP port number 8080.
+
+<9> With `options.setAcceptInsecureCert(true)`, self-signed or otherwise invalid certificates will be implicitly trusted by the browser on navigation. See https://developer.mozilla.org/en-US/docs/Web/WebDriver/Capabilities/acceptInsecureCerts
+
+<10> You can start broser by calling `driver.start()`. See https://chromedriver.chromium.org/capabilities
+
+<11> Now we navigate to the URL as target
+
+<12> We expect to get one or more InterceptedMessage
+
+<13> The sample code just convert the messages into string and print it into a file. But we can consume the captured messages in any way we want. For example, filter them, count them, transform them.
+
+<14> When halted, the `mitmdump` wil save a HAR file into the specified location.
+
 

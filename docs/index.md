@@ -24,6 +24,7 @@
 
     import java.io.BufferedWriter;
     import java.io.File;
+    import java.io.FileNotFoundException;
     import java.io.FileOutputStream;
     import java.io.IOException;
     import java.io.OutputStreamWriter;
@@ -51,12 +52,12 @@
         private static final String MITMDUMP_COMMAND_PATH;
         static {
             MITMDUMP_COMMAND_PATH =
-                    
+                                                            // (1)
                     System.getProperty("user.home") + "/" + ".local/bin/mitmdump";
         }
 
         private static final int PROXY_PORT = 8080;
-        private MitmproxyJava mitmDump;
+        private MitmproxyJava proxy;
         private List<InterceptedMessage> messages;
 
         private Path harPath;
@@ -72,7 +73,7 @@
 
             // start Mitmproxy process with HAR support
             // : https://www.mitmproxy.org/posts/har-support/
-            harPath = too.resolveOutput("dump.har");  
+            harPath = too.resolveOutput("dump.har");      // (2)
             List<String> extraMitmproxyParams =
                     Arrays.asList("--set",
                             // "--set hardump=filepath"
@@ -83,24 +84,25 @@
             log.info("mitmdump command path: " + MITMDUMP_COMMAND_PATH);
             log.info("extraMitmproxyParams=" + extraMitmproxyParams);
 
-            mitmDump = new MitmproxyJava(MITMDUMP_COMMAND_PATH,    
-                    (InterceptedMessage m) -> {    
+            proxy = new MitmproxyJava(MITMDUMP_COMMAND_PATH,    // (3)
+                    (InterceptedMessage m) -> {                    // (4)
                         // the mitmdump process notify the caller of
                         // the all intercepted messages in event-driven manner
                         log.info("intercepted request for " + m.getRequest().getUrl());
                         messages.add(m);
                         return m;
                         },
-                    PROXY_PORT,   
-                    extraMitmproxyParams);  
+                    PROXY_PORT,                                    // (5)
+                    extraMitmproxyParams);                         // (6)
 
             // Start the Proxy
-            mitmDump.start();
+            proxy.start();                                         // (7)
 
             // Start Chrome browser via WebDriverManager
             // The browser need to be Proxy-aware.
             ChromeOptions options = makeChromeOptions();
-            driver = WebDriverManager.chromedriver().capabilities(options).create();
+            driver = WebDriverManager.chromedriver()
+                    .capabilities(options).create();               // (10)
         }
 
         ChromeOptions makeChromeOptions() {
@@ -110,8 +112,8 @@
             seleniumProxy.setHttpProxy("127.0.0.1:" + PROXY_PORT);  // URLs with scheme "http:" requires this
             seleniumProxy.setSslProxy("127.0.0.1:" + PROXY_PORT);   // URLs with scheme "https:" requires this
             ChromeOptions options = new ChromeOptions();
-            options.setProxy(seleniumProxy);
-            options.setAcceptInsecureCerts(true);
+            options.setProxy(seleniumProxy);                        // (8)
+            options.setAcceptInsecureCerts(true);                   // (9)
             return options;
         }
 
@@ -122,6 +124,7 @@
          */
         @Test
         void testCaptureNetworkTraffic() throws IOException {
+            // (11)
             driver.get("https://bonigarcia.dev/selenium-webdriver-java/login-form.html");
             driver.findElement(By.id("username")).sendKeys("user");
             driver.findElement(By.id("password")).sendKeys("user");
@@ -129,14 +132,27 @@
             String bodyText = driver.findElement(By.tagName("body")).getText();
             assertThat(bodyText).contains("Login successful");
 
-            // successful in capturing the network traffic?
+            // successful in capturing the network traffic?              (12)
             assertThat(messages).hasAtLeastOneElementOfType(InterceptedMessage.class);
 
-            // print out the captured messages into a file
-            File output = too.resolveOutput("testCaptureNetworkTraffic.txt").toFile();
+            // consume the captured messages
+            Path output = too.resolveOutput("testCaptureNetworkTraffic.txt");
+            consumeInterceptedMessages(messages, output);              // (13)
+        }
+
+        /**
+         * print the stringified InterceptedMessages into the output file
+         * @param messages List of InterceptedMessage objects
+         * @param output Path to write into
+         * @throws FileNotFoundException when the parent file is not there
+         */
+        void consumeInterceptedMessages(List<InterceptedMessage> messages, Path output)
+                throws FileNotFoundException {
             PrintWriter pr = new PrintWriter(
-                    new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output),
-                                    StandardCharsets.UTF_8)));
+                    new BufferedWriter(
+                            new OutputStreamWriter(
+                                    new FileOutputStream(output.toFile()),
+                            StandardCharsets.UTF_8)));
             for (InterceptedMessage m : messages) {
                 pr.println(m.toString());
             }
@@ -153,8 +169,8 @@
             if (driver != null) {
                 driver.quit();
             }
-            if (mitmDump != null) {
-                mitmDump.stop();
+            if (proxy != null) {
+                proxy.stop();                               // (14)
             }
             log.info("The HAR was written into " +
                     TestOutputOrganizer.toHomeRelativeString(harPath));
@@ -182,3 +198,19 @@ On Windows, try
 -   The `mitmproxy` and `mitmdump` proxy listens to the IP port #8080 as default.
 
 -   If you want `mitmdump` command to save a HAR file on exit, you need to specify `"--set hardump=filepath"` parameter on startup. See <https://www.mitmproxy.org/posts/har-support/> for detail. Warning: the *filepath* should NOT contain any whitespace character. For exmaple, `"--set hardump=my har file.har"` would not work. Unfortunately, the `mitmpdump` command does not understand quotations like `"--set hardump='my har file.har'"`.
+
+-   You can start the proxy process by calling `proxy.start()`
+
+-   You want the browser to talk to the proxy which is running at the host `120.0.0.1` with IP port number 8080.
+
+-   With `options.setAcceptInsecureCert(true)`, self-signed or otherwise invalid certificates will be implicitly trusted by the browser on navigation. See <https://developer.mozilla.org/en-US/docs/Web/WebDriver/Capabilities/acceptInsecureCerts>
+
+-   You can start broser by calling `driver.start()`. See <https://chromedriver.chromium.org/capabilities>
+
+-   Now we navigate to the URL as target
+
+-   We expect to get one or more InterceptedMessage
+
+-   The sample code just convert the messages into string and print it into a file. But we can consume the captured messages in any way we want. For example, filter them, count them, transform them.
+
+-   When halted, the `mitmdump` wil save a HAR file into the specified location.
