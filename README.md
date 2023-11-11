@@ -80,6 +80,8 @@ I needed to install Python 3. In the commandline, I did the following (in fact, 
 $ brew install python3
 ```
 
+### Installing mitmproxy with websockets module
+
 The home page of [mitmproxy.org](https://www.mitmproxy.org/) tells us that we can install the mitmproxy quick by typing:
 
 ```
@@ -113,6 +115,8 @@ By the following command, I could check the path of the `mitmdump` command insta
 $ which mitmdump
 /Users/kazurayam/.local/bin/mitmdump
 ```
+
+### Running `mitmdump` in the command line
 
 Now I want to test if the `mitmdump` command is up and running on my machine. Let me check it.
 
@@ -156,5 +160,16 @@ Then I quit the process by CTRL+C key.
 
 ![mitmdump_quit](https://kazurayam.github.io/images/mitmdump_quit.png)
 
-The process stopped. On exit, the `mitmdump` will write a HAR file on the local disk.
+The process stopped. The message told me that, on exit, the `mitmdump` wrote a HAR file on the local disk. Where is the files? --- Remember, I specified the path in the command argument to start it up.
 
+![sample-dump.har](https://kazurayam.github.io/images/sample-dump.har.png)
+
+I could confirm that the `mitmdump` command is working on my machine.
+
+### Running the sample junit5 test
+
+TODO
+
+### Description of the sample test
+
+TODO
