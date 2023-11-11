@@ -66,7 +66,7 @@ For a Java programmer who is not well experienced with Python, installing mitmpr
 
 Here I will describe what I have done on my MackBook.
 
-#### Install Python3
+#### Install Homebrew for Mac
 
 At first, I needed [Homebrew](https://brew.sh/) that helps every Mac users to install everything. In the command line, I did this (in fact, many years ago).
 
@@ -74,13 +74,7 @@ At first, I needed [Homebrew](https://brew.sh/) that helps every Mac users to in
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-I needed to install Python 3. In the commandline, I did the following (in fact, many years ago).
-
-```
-$ brew install python3
-```
-
-### Installing mitmproxy with websockets module
+#### Installing mitmproxy with websockets module
 
 The home page of [mitmproxy.org](https://www.mitmproxy.org/) tells us that we can install the mitmproxy quick by typing:
 
@@ -116,7 +110,7 @@ $ which mitmdump
 /Users/kazurayam/.local/bin/mitmdump
 ```
 
-### Running `mitmdump` in the command line
+#### Running `mitmdump` in the command line
 
 Now I want to test if the `mitmdump` command is up and running on my machine. Let me check it.
 
@@ -265,6 +259,6 @@ BUILD SUCCESSFUL in 15s
 
 The message tells that the HAR file was successfully written into `~/github/mitmproxy-lesson/app/test-output/io.github.bonigarcia.webdriver.jupiter.ch09.performance.CapturingNetworkTrafficChromeJupiterTest/dump.har`.
 
-### Description of the sample test
+## Description of the sample test
 
 Please refer to [this doc](https://kazurayam.github.io/mitmproxy-lesson/).

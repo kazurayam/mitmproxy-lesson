@@ -1,12 +1,17 @@
 = mitmproxy lesson
 
+- author: kazurayam
+- date: NOV 2023
+- project repository: https://github.com/kazurayam/mitmproxy-lesson
+
 == Sample JUnit5 Test description
 
 [source,java]
 ----
 include::../app/src/test/java/io/github/bonigarcia/webdriver/jupiter/ch09/performance/CapturingNetworkTrafficChromeJupiterTest.java[]
 ----
-<1> You need to explicitly specify the path of `mitmdump` command on your machine. How to find it? On mac, try
+
+1. You need to explicitly specify the path of `mitmdump` command on your machine. How to find it? On mac, try
 [source]
 ----
 $ which mitmdump
@@ -19,30 +24,30 @@ $ type mitmdump
 \Users\kazuryam\.local\bin\mitmdump
 ----
 
-<2> `com.kazurayam.unittest.TestOutputOrganizer.resolveOutput(String fileName)` will resolve the output file path. The fill will be located under the `projectDir/test-output` directory.
+2. `com.kazurayam.unittest.TestOutputOrganizer.resolveOutput(String fileName)` will resolve the output file path. The fill will be located under the `projectDir/test-output` directory.
 
-<3> The `io.appium.mitmproxy.MitmproxyJava` instance is the bridge between the test class written in Java and the proxy process written in Python.
+3. The `io.appium.mitmproxy.MitmproxyJava` instance is the bridge between the test class written in Java and the proxy process written in Python.
 
-<4> You can pass a Java lambda function as the event handler which will be invoked on every message interception by the proxy process. I the lambda function, you can do anything you want. The sample code just saves the `InterceptedMessage` objects in to a collection in the test class.
+4. You can pass a Java lambda function as the event handler which will be invoked on every message interception by the proxy process. I the lambda function, you can do anything you want. The sample code just saves the `InterceptedMessage` objects in to a collection in the test class.
 
-<5> The `mitmproxy` and `mitmdump` proxy listens to the IP port #8080 as default.
+5. The `mitmproxy` and `mitmdump` proxy listens to the IP port #8080 as default.
 
-<6> If you want `mitmdump` command to save a HAR file on exit, you need to specify `"--set hardump=filepath"` parameter on startup. See https://www.mitmproxy.org/posts/har-support/ for detail. Warning: the _filepath_ should NOT contain any whitespace character. For exmaple, `"--set hardump=my har file.har"` would not work. Unfortunately, the `mitmpdump` command does not understand quotations like `"--set hardump='my har file.har'"`.
+6. If you want `mitmdump` command to save a HAR file on exit, you need to specify `"--set hardump=filepath"` parameter on startup. See https://www.mitmproxy.org/posts/har-support/ for detail. Warning: the _filepath_ should NOT contain any whitespace character. For exmaple, `"--set hardump=my har file.har"` would not work. Unfortunately, the `mitmpdump` command does not understand quotations like `"--set hardump='my har file.har'"`.
 
-<7> You can start the proxy process by calling `proxy.start()`
+7. You can start the proxy process by calling `proxy.start()`
 
-<8> You want the browser to talk to the proxy which is running at the host `120.0.0.1` with IP port number 8080.
+8. You want the browser to talk to the proxy which is running at the host `120.0.0.1` with IP port number 8080.
 
-<9> With `options.setAcceptInsecureCert(true)`, self-signed or otherwise invalid certificates will be implicitly trusted by the browser on navigation. See https://developer.mozilla.org/en-US/docs/Web/WebDriver/Capabilities/acceptInsecureCerts
+9. With `options.setAcceptInsecureCert(true)`, self-signed or otherwise invalid certificates will be implicitly trusted by the browser on navigation. See https://developer.mozilla.org/en-US/docs/Web/WebDriver/Capabilities/acceptInsecureCerts
 
-<10> You can start broser by calling `driver.start()`. See https://chromedriver.chromium.org/capabilities
+10. You can start broser by calling `driver.start()`. See https://chromedriver.chromium.org/capabilities
 
-<11> Now we navigate to the URL as target
+11. Now we navigate to the URL as target
 
-<12> We expect to get one or more InterceptedMessage
+12. We expect to get one or more InterceptedMessage
 
-<13> The sample code just convert the messages into string and print it into a file. But we can consume the captured messages in any way we want. For example, filter them, count them, transform them.
+13. The sample code just convert the messages into string and print it into a file. But we can consume the captured messages in any way we want. For example, filter them, count them, transform them.
 
-<14> When halted, the `mitmdump` wil save a HAR file into the specified location.
+14. When halted, the `mitmdump` wil save a HAR file into the specified location.
 
 

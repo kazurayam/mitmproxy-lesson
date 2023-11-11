@@ -2,6 +2,12 @@
 
 # mitmproxy lesson
 
+-   author: kazurayam
+
+-   date: NOV 2023
+
+-   project repository: <https://github.com/kazurayam/mitmproxy-lesson>
+
 ## Sample JUnit5 Test description
 
     package io.github.bonigarcia.webdriver.jupiter.ch09.performance;
@@ -23,7 +29,6 @@
     import org.slf4j.LoggerFactory;
 
     import java.io.BufferedWriter;
-    import java.io.File;
     import java.io.FileNotFoundException;
     import java.io.FileOutputStream;
     import java.io.IOException;
@@ -177,7 +182,7 @@
         }
     }
 
--   You need to explicitly specify the path of `mitmdump` command on your machine. How to find it? On mac, try
+1.  You need to explicitly specify the path of `mitmdump` command on your machine. How to find it? On mac, try
 
 <!-- -->
 
@@ -189,28 +194,28 @@ On Windows, try
     $ type mitmdump
     \Users\kazuryam\.local\bin\mitmdump
 
--   `com.kazurayam.unittest.TestOutputOrganizer.resolveOutput(String fileName)` will resolve the output file path. The fill will be located under the `projectDir/test-output` directory.
+1.  `com.kazurayam.unittest.TestOutputOrganizer.resolveOutput(String fileName)` will resolve the output file path. The fill will be located under the `projectDir/test-output` directory.
 
--   The `io.appium.mitmproxy.MitmproxyJava` instance is the bridge between the test class written in Java and the proxy process written in Python.
+2.  The `io.appium.mitmproxy.MitmproxyJava` instance is the bridge between the test class written in Java and the proxy process written in Python.
 
--   You can pass a Java lambda function as the event handler which will be invoked on every message interception by the proxy process. I the lambda function, you can do anything you want. The sample code just saves the `InterceptedMessage` objects in to a collection in the test class.
+3.  You can pass a Java lambda function as the event handler which will be invoked on every message interception by the proxy process. I the lambda function, you can do anything you want. The sample code just saves the `InterceptedMessage` objects in to a collection in the test class.
 
--   The `mitmproxy` and `mitmdump` proxy listens to the IP port #8080 as default.
+4.  The `mitmproxy` and `mitmdump` proxy listens to the IP port #8080 as default.
 
--   If you want `mitmdump` command to save a HAR file on exit, you need to specify `"--set hardump=filepath"` parameter on startup. See <https://www.mitmproxy.org/posts/har-support/> for detail. Warning: the *filepath* should NOT contain any whitespace character. For exmaple, `"--set hardump=my har file.har"` would not work. Unfortunately, the `mitmpdump` command does not understand quotations like `"--set hardump='my har file.har'"`.
+5.  If you want `mitmdump` command to save a HAR file on exit, you need to specify `"--set hardump=filepath"` parameter on startup. See <https://www.mitmproxy.org/posts/har-support/> for detail. Warning: the *filepath* should NOT contain any whitespace character. For exmaple, `"--set hardump=my har file.har"` would not work. Unfortunately, the `mitmpdump` command does not understand quotations like `"--set hardump='my har file.har'"`.
 
--   You can start the proxy process by calling `proxy.start()`
+6.  You can start the proxy process by calling `proxy.start()`
 
--   You want the browser to talk to the proxy which is running at the host `120.0.0.1` with IP port number 8080.
+7.  You want the browser to talk to the proxy which is running at the host `120.0.0.1` with IP port number 8080.
 
--   With `options.setAcceptInsecureCert(true)`, self-signed or otherwise invalid certificates will be implicitly trusted by the browser on navigation. See <https://developer.mozilla.org/en-US/docs/Web/WebDriver/Capabilities/acceptInsecureCerts>
+8.  With `options.setAcceptInsecureCert(true)`, self-signed or otherwise invalid certificates will be implicitly trusted by the browser on navigation. See <https://developer.mozilla.org/en-US/docs/Web/WebDriver/Capabilities/acceptInsecureCerts>
 
--   You can start broser by calling `driver.start()`. See <https://chromedriver.chromium.org/capabilities>
+9.  You can start broser by calling `driver.start()`. See <https://chromedriver.chromium.org/capabilities>
 
--   Now we navigate to the URL as target
+10. Now we navigate to the URL as target
 
--   We expect to get one or more InterceptedMessage
+11. We expect to get one or more InterceptedMessage
 
--   The sample code just convert the messages into string and print it into a file. But we can consume the captured messages in any way we want. For example, filter them, count them, transform them.
+12. The sample code just convert the messages into string and print it into a file. But we can consume the captured messages in any way we want. For example, filter them, count them, transform them.
 
--   When halted, the `mitmdump` wil save a HAR file into the specified location.
+13. When halted, the `mitmdump` wil save a HAR file into the specified location.
