@@ -118,11 +118,15 @@ I opened a terminal window, where I started the `mitmdump` command:
 
 ```
 :~
+$ mkdir tmp
+:~
 $ mitmdump --set hardump=tmp/sample-dump.har
 [10:51:51.352] HTTP(S) proxy listening at *:8080.
 ```
 
 Please note that I specified the path of HAR file by the `--set hardump=xxxx` command. 
+
+Also note that I created a directory `~/tmp` where the HAR file will be written into.
 
 I opened another terminal window, where I run `curl` command to send a HTTP GET request to a web site through the proxy = the process where the `mitmdump` is running while listening to the localhost:8080 port.
 
