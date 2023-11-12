@@ -23,10 +23,12 @@ script   -> browser    : start the browser to navigate to a URL
 activate browser
 group for all web resources
 browser  -> proxy      : request via proxy
-proxy    -> proxy      : log request
 proxy    -> server     : send request
+proxy    -> proxy      : log request
+proxy    -> script     : notify request message
 server   -> proxy      : reply response
 proxy    -> proxy      : log response
+proxy    -> script     : notify response message
 proxy    -> browser    : response
 end
 script   -> script     : do some tests
