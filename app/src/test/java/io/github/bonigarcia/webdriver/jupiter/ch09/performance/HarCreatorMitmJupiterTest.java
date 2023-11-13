@@ -34,9 +34,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * <a href="https://appiumpro.com/editions/65-capturing-network-traffic-in-java-with-appium">...</a>
  */
-public class CapturingNetworkTrafficChromeJupiterTest {
+public class HarCreatorMitmJupiterTest {
 
-    static Logger log = LoggerFactory.getLogger(CapturingNetworkTrafficChromeJupiterTest.class);
+    static Logger log = LoggerFactory.getLogger(HarCreatorMitmJupiterTest.class);
 
     static TestOutputOrganizer too;
 
@@ -57,7 +57,7 @@ public class CapturingNetworkTrafficChromeJupiterTest {
 
     @BeforeAll
     static void setupClass() {
-        too = TestOutputOrganizerFactory.create(CapturingNetworkTrafficChromeJupiterTest.class);
+        too = TestOutputOrganizerFactory.create(HarCreatorMitmJupiterTest.class);
     }
 
     @BeforeEach
